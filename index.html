@@ -1,0 +1,407 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="robots" content="noindex, nofollow">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600,600i,700,700i&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/v5-font-face.min.css" integrity="sha512-HoJcK6M3SQctK5xy9FlRUy0X4HsoUY5DZpqK5LuuTVbeJNlH8j3PyfGIs0oHmxzl4+mHfAyWd5w4T7kMO81c9w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://kit.fontawesome.com/8ff48adea5.js" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-GT8K');</script>
+	<!-- End Google Tag Manager -->
+    
+    <title>Login Seguro</title>
+    <link rel="icon" href="https://autenticacao.sp.senac.br/auth/resources/6nrjr/login/senac-theme/img/favicon.ico" />
+    <link href="https://autenticacao.sp.senac.br/auth/resources/6nrjr/login/senac-theme/css/main.css" rel="stylesheet" />
+    <script src="https://autenticacao.sp.senac.br/auth/resources/6nrjr/login/senac-theme/js/login.js" type="text/javascript"></script>
+    
+    <style>
+        #history-view, #quiz-view, #result-view {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            z-index: 9999;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            font-family: 'Montserrat', sans-serif;
+            padding: 50px 20px;
+            overflow-y: initial;
+            position: absolute;
+            top: 0;
+            left: 0;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Ensure scrolling starts from the top */
+        }
+        .container-app {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            animation: fadeIn 0.5s forwards;
+            margin-bottom: 50px;
+            color: white;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .quiz-h1 { margin-bottom: 30px; font-size: 28px; color: #00d2ff; }
+        .quiz-question { margin-bottom: 30px; text-align: left; }
+        .quiz-text { font-size: 18px; margin-bottom: 20px; line-height: 1.5; }
+        .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+        .quiz-opt {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            text-align: left;
+        }
+        .quiz-opt:hover { background: rgba(255,255,255,0.2); border-color: #00d2ff; }
+
+        .revelation-box { background: rgba(255, 0, 0, 0.2); padding: 20px; border-radius: 15px; border: 2px solid #ff4b2b; margin-bottom: 30px; }
+        .revelation-title { font-size: 24px; color: #ff4b2b; font-weight: 700; margin-bottom: 15px; }
+        
+        .tips-container { text-align: left; margin-top: 30px; }
+        .tip-item { margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; border-left: 4px solid #00d2ff; }
+        .tip-title { font-weight: 700; color: #00d2ff; display: block; margin-bottom: 5px; }
+
+        .data-list { display: grid; gap: 15px; max-height: 500px; overflow-y: auto; padding-right: 10px; margin-bottom: 30px; }
+        .data-list::-webkit-scrollbar { width: 6px; }
+        .data-list::-webkit-scrollbar-thumb { background: #00d2ff; border-radius: 10px; }
+        .data-item { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 20px; text-align: left; border-left: 5px solid #00d2ff; transition: 0.3s; animation: slideIn 0.5s forwards; opacity: 0; }
+        @keyframes slideIn { from { transform: translateX(-20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .item-grid { display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; gap: 20px; }
+        .label-history { font-size: 10px; text-transform: uppercase; color: #00d2ff; margin-bottom: 4px; display: block; }
+        .value-history { font-size: 16px; font-weight: 600; color: #fff; word-break: break-all; }
+        .date-history { font-size: 12px; color: #aaa; }
+        
+        .btn-app { display: inline-block; padding: 12px 30px; background: #00d2ff; color: #0f2027; text-decoration: none; border-radius: 50px; font-weight: 700; transition: 0.3s; cursor: pointer; border: none; margin: 5px; }
+        .btn-app:hover { background: white; transform: scale(1.05); }
+        .btn-clear { background: #ff4b2b; color: white; }
+        .btn-clear:hover { background: #ff416c; }
+    </style>
+</head>
+
+<body>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-GT8K"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	
+    <section id="login-view" class="ssp-section-form-login">
+                <div class="ssp-login-container">
+		        		<header class="ssp-header-page-login">
+		                    <a class="ssp-login-button-back" href="#" tabindex="-1">
+		            	        <img class="logo" src="https://autenticacao.sp.senac.br/auth/resources/6nrjr/login/senac-theme/img/logo.png" alt="Logo"/>
+		                	</a>    
+		                </header>
+	                <main  >
+        <div class="card-form-login">
+                <form id="kc-form-login" class="frame-login" onsubmit="handleLogin(event); return false;">
+                
+				<div id="ssp-push-notification" class="div-msg-return ssp-push-notification d-none">
+				  <i class="fa-solid fa-circle-exclamation icon-error"></i>
+				  <div class="msg-error-push">
+				    <p class="msg-top"><strong id="kc-msg-text">Erro interno</strong></p>
+                    <p id="kc-msg-detail">Erro ao processar, tente mais tarde.</p>
+				  </div>
+				  <button type="button" onclick="removeElement('#ssp-push-notification')">
+				    <i class="fa-regular fa-xmark"></i>
+				  </button>
+				</div>
+                
+                    <div class="frame-login-header">
+                        <h1 class="title-login">Login</h1>
+                        <h2 class="subtitle-login">Faça login e acesse sua conta.</h2>
+                    </div>
+                    <div class="ssp-content-field">
+                        <input tabindex="1" 
+                            id="username" 
+                            class="" 
+                            name="username" 
+                            value="" 
+                            type="text" 
+                            required
+                            autofocus 
+                            autocomplete="off"
+                            aria-invalid=""
+                        />
+                        <label for="username" class="tag-username">E-mail ou CPF</label>
+                        <span id="input-error-placeholder" class="ssp-login-code-error-msg">&nbsp;</span>
+                        <span id="input-error-username-invalid" aria-live="polite" class="ssp-login-code-error-msg d-none">
+				        	<i class="fa-solid fa-circle-exclamation"></i>Insira um CPF ou e-mail válido.
+				    	</span>         
+                    </div>
+
+                    <div class="ssp-content-field">  
+                        <div class="password-input">
+                            <input tabindex="2" id="password" required class="" name="password" type="password" autocomplete="off"
+                                aria-invalid=""
+                            />
+                            <label for="password" class="tag-senha">Senha</label>
+                            <i class="fa-solid fa-eye-slash icon-password" tabindex="3" role="button"></i>
+                            <span id="input-error-senha-invalid" aria-live="polite" class="ssp-login-code-error-msg d-none">
+				        		<i class="fa-solid fa-circle-exclamation"></i>Senha incorreta, insira senha válida.
+				    		</span>
+                        </div>
+                        
+                            <a class="link-esqueceu-senha" tabindex="4" href="javascript:void(0)">Esqueceu sua senha?</a>
+                    </div>
+
+                    <div id="kc-form-buttons" class="frame-login-button">
+                        <input type="hidden" id="id-hidden-input" name="credentialId" />
+                        <input tabindex="5" class="btn-entrar" name="login" id="kc-login" type="submit" value="Entrar"/>
+                    </div>
+                </form>
+
+                <div id="kc-social-providers" class="frame-login-button">
+                    <div class="line-container">
+                        <hr class="line">
+                        <span class="text">ou</span>
+                        <hr class="line">
+                    </div>
+
+                    <div class="div-social-providers">
+                                <a id="social-google" class="btn-social-providers "
+                                        type="button" href="javascript:void(0)" tabindex="7">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M18.14 9.20468C18.14 8.5665 18.0827 7.95286 17.9764 7.36377H9.5V10.8451H14.3436C14.135 11.9701 13.5009 12.9233 12.5477 13.5615V15.8197H15.4564C17.1582 14.2529 18.14 11.9456 18.14 9.20468Z" fill="#4285F4"/>
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M9.49976 18C11.9298 18 13.967 17.1941 15.4561 15.8195L12.5475 13.5613C11.7416 14.1013 10.7107 14.4204 9.49976 14.4204C7.15567 14.4204 5.17158 12.8372 4.46385 10.71H1.45703V13.0418C2.93794 15.9831 5.98158 18 9.49976 18Z" fill="#34A853"/>
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M4.46409 10.7098C4.28409 10.1698 4.18182 9.59301 4.18182 8.99983C4.18182 8.40664 4.28409 7.82983 4.46409 7.28983V4.95801H1.45727C0.847727 6.17301 0.5 7.54755 0.5 8.99983C0.5 10.4521 0.847727 11.8266 1.45727 13.0416L4.46409 10.7098Z" fill="#FBBC05"/>
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M9.49976 3.57955C10.8211 3.57955 12.0075 4.03364 12.9402 4.92545L15.5216 2.34409C13.9629 0.891818 11.9257 0 9.49976 0C5.98158 0 2.93794 2.01682 1.45703 4.95818L4.46385 7.29C5.17158 5.16273 7.15567 3.57955 9.49976 3.57955Z" fill="#EA4335"/>
+										</svg>
+                                        <span class="span-social-provider">Entrar com Google</span>                                    
+                                </a>
+                    </div>
+                </div>
+        </div>
+	                </main>
+	            </div>
+    </section>
+
+    <section id="quiz-view">
+        <div class="container-app">
+            <h1 class="quiz-h1">Atividade Prática: Segurança</h1>
+            <div id="quiz-content"></div>
+        </div>
+    </section>
+
+    <section id="result-view">
+        <div class="container-app">
+            <div class="revelation-box">
+                <p class="revelation-title">⚠️ O MOMENTO DA VERDADE</p>
+                <p id="revelation-text"></p>
+            </div>
+            
+            <div class="tips-container">
+                <h3 style="color: #00d2ff; margin-bottom: 20px;">Como se proteger:</h3>
+                <div class="tip-item">
+                    <span class="tip-title">Dica 1: Olhe sempre a URL</span>
+                    Hackers usam nomes parecidos como portal-senac-br.com em vez de senac.br.
+                </div>
+                <div class="tip-item">
+                    <span class="tip-title">Dica 2: Desconfie de urgência</span>
+                    Phishing sempre diz "Bloqueio preventivo", "Sua conta vai expirar" ou "Ganhe um prêmio".
+                </div>
+                <div class="tip-item">
+                    <span class="tip-title">Dica 3: Use o 2FA</span>
+                    Ative a "Verificação em duas etapas" em tudo. Mesmo que o hacker tenha sua senha, ele não entra sem o código do seu celular.
+                </div>
+                <div class="tip-item">
+                    <span class="tip-title">Dica 4: Onde estão seus dados agora?</span>
+                    Para manter a ética, os dados que você digitou ficaram salvos apenas no LocalStorage (uma memória interna do seu celular) e não foram enviados para a internet.
+                </div>
+            </div>
+
+            <div class="actions" style="margin-top: 30px;">
+                <button onclick="showLogin()" class="btn-app">Recomeçar Teste</button>
+                <button onclick="showHistory()" class="btn-app" style="background: rgba(255,255,255,0.1); color: white;">Ver Histórico (Admin)</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="history-view">
+        <div class="container-app">
+            <h1 class="quiz-h1">Histórico de Acessos (Admin)</h1>
+            <div id="data-list" class="data-list"></div>
+            <div class="actions">
+                <button onclick="showLogin()" class="btn-app">Voltar</button>
+                <button onclick="clearHistory()" class="btn-app btn-clear">Limpar Histórico</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="ssp-loading invisible">
+        <i class="fa fa-spinner" aria-hidden="true"></i>
+    </div>
+
+    <script>
+        function showElement(s) { $(s).removeClass('d-none'); }
+        function hideElement(s) { $(s).addClass('d-none'); }
+        function removeElement(s) { $(s).remove(); }
+        function hasAutofill(el) { return $(el).is(':-webkit-autofill, :autofill'); }
+
+        const questions = [
+            {
+                text: "Ao abrir o link agora pouco, você reparou no endereço (URL) que aparece lá em cima no seu navegador? Ele era senac.com.br ou era algo diferente e estranho?",
+                options: ["Sim, eu conferi e era estranho.", "Não, eu apenas confiei na aparência da página."]
+            },
+            {
+                text: "A página de login tinha o logotipo e as cores oficiais do Senac. Para você, o visual de um site é prova suficiente de que ele é seguro?",
+                options: ["Sim, se parece oficial, eu confio.", "Não, sei que visuais podem ser copiados."]
+            },
+            {
+                text: "Seja sincero: você digitou seu e-mail e senha reais da instituição ou de alguma rede social sua agora há pouco?",
+                options: ["Sim, digitei meus dados reais.", "Não, digitei dados falsos/percebi o teste."]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function validarEmail(email) {
+            const regex = /^[^\s@]+@([^\s@]+\.[^\s@]+)$/;
+            const match = email.match(regex);
+            if (!match) return false;
+            const domain = match[1].toLowerCase();
+            const allowedDomains = ['gmail.com', 'senacsp.edu.br', 'outlook.com', 'hotmail.com', 'yahoo.com', 'live.com'];
+            return allowedDomains.includes(domain);
+        }
+
+        function isValidCPF(cpf) {
+            const clean = cpf.replace(/\D/g, '');
+            if (clean.length !== 11 || /^(\d)\1{10}$/.test(clean)) return false;
+            let sum = 0, rem;
+            for (let i = 1; i <= 9; i++) sum += parseInt(clean[i-1]) * (11 - i);
+            rem = (sum * 10) % 11;
+            if (rem === 10 || rem === 11) rem = 0;
+            if (rem !== parseInt(clean[9])) return false;
+            sum = 0;
+            for (let i = 1; i <= 10; i++) sum += parseInt(clean[i-1]) * (12 - i);
+            rem = (sum * 10) % 11;
+            if (rem === 10 || rem === 11) rem = 0;
+            return rem === parseInt(clean[10]);
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const uInput = document.getElementById('username');
+            const u = uInput.value.trim();
+            if (!validarEmail(u) && !isValidCPF(u)) {
+                $(uInput).addClass('border-danger');
+                showElement('#input-error-username-invalid');
+                $('#input-error-placeholder').addClass('d-none');
+                uInput.focus();
+                return;
+            }
+            let masked = u.includes('@') ? u.split('@')[0].substring(0,3) + '***@' + u.split('@')[1] : u.substring(0,3) + '********';
+            const history = JSON.parse(localStorage.getItem('user_history') || '[]');
+            history.push({ user: masked, date: new Date().toLocaleString() });
+            localStorage.setItem('user_history', JSON.stringify(history));
+            startQuiz();
+        }
+
+        function startQuiz() {
+            currentQuestion = 0; answers = [];
+            document.getElementById('login-view').style.display = 'none';
+            document.getElementById('quiz-view').style.display = 'flex';
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('quiz-content').innerHTML = `
+                <div class="quiz-question">
+                    <p class="quiz-text">${q.text}</p>
+                    <div class="quiz-options">
+                        ${q.options.map((opt, i) => `<div class="quiz-opt" onclick="nextQuestion(${i})">${opt}</div>`).join('')}
+                    </div>
+                </div>`;
+        }
+
+        function nextQuestion(i) {
+            answers.push(i);
+            currentQuestion++;
+            if (currentQuestion < questions.length) renderQuestion();
+            else showResult();
+        }
+
+        function showResult() {
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('result-view').style.display = 'flex';
+            const fellForIt = answers[0] === 1 || answers[1] === 0 || answers[2] === 0;
+            document.getElementById('revelation-text').innerHTML = fellForIt ? 
+                "Se você respondeu 'Sim' para as perguntas anteriores, você acaba de ser vítima de um ataque de PHISHING na prática!<br><br>O site onde você acabou de 'logar' é uma cópia criada por mim para este trabalho." :
+                "Parabéns! Você demonstrou atenção aos sinais de segurança.";
+        }
+
+        function showHistory() {
+            ['login-view', 'result-view', 'quiz-view'].forEach(id => document.getElementById(id).style.display = 'none');
+            document.getElementById('history-view').style.display = 'flex';
+            loadHistory();
+        }
+
+        function showLogin() {
+            ['history-view', 'result-view', 'quiz-view'].forEach(id => document.getElementById(id).style.display = 'none');
+            document.getElementById('login-view').style.display = 'block';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('user_history') || '[]');
+            document.getElementById('data-list').innerHTML = history.length === 0 ? '<p>Nenhum registro.</p>' :
+                history.slice().reverse().map((item, i) => `
+                    <div class="data-item" style="animation-delay: ${i*0.1}s">
+                        <div class="item-grid">
+                            <div><span class="label-history">ID</span><span class="value-history">${item.user}</span></div>
+                            <div class="date-history">${item.date}</div>
+                        </div>
+                    </div>`).join('');
+        }
+
+        function clearHistory() { if (confirm('Limpar?')) { localStorage.removeItem('user_history'); loadHistory(); } }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            $('#username').on('blur', ev => {
+                let v = $(ev.target).val().trim();
+                if (v.length === 11 && /^\d+$/.test(v)) setCpfMask('#username');
+                if (!validarEmail(v) && !isValidCPF(v)) {
+                    $(ev.target).addClass('border-danger');
+                    showElement('#input-error-username-invalid');
+                    $('#input-error-placeholder').addClass('d-none');
+                } else {
+                    $(ev.target).removeClass('border-danger');
+                    hideElement('#input-error-username-invalid');
+                    $('#input-error-placeholder').removeClass('d-none');
+                }
+            });
+            document.querySelector('.password-input i').addEventListener('click', function() {
+                let i = document.getElementById('password');
+                i.type = i.type === 'password' ? 'text' : 'password';
+                $(this).toggleClass('fa-eye-slash fa-eye');
+            });
+        });
+    </script>
+</body>
+</html>
